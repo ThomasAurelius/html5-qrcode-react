@@ -3,26 +3,17 @@ import './App.css';
 import React from 'react';
 import Html5QrcodePlugin from './Html5QrcodePlugin.jsx'
 import ResultContainerPlugin from './ResultContainerPlugin.jsx'
-import Result2 from './Result2.jsx'
 import Lookup from './components/Lookup'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      decodedResults: []
-    }
-   
+export default function App(props) {
 
-    // This binding is necessary to make `this` work in the callback.
-    this.onNewScanResult = this.onNewScanResult.bind(this);
-  }
 
-  render() {
+  const [decodedResults, setDecodedResults] = React.useState(9781408810552)
+    console.log("State: " + decodedResults)
     return (
       <div className="App">
         <section className="App-section">
-          <div className="App-section-title"> Html5-qrcode React demo</div>
+          <div className="App-section-title"> Teacher Library Scanner 1.0</div>
           <br />
           <br />
           <br />
@@ -30,27 +21,23 @@ class App extends React.Component {
             fps={10}
             qrbox={250}
             disableFlip={false}
-            qrCodeSuccessCallback={this.onNewScanResult}/>
-          <ResultContainerPlugin results={this.state.decodedResults} />
-          <Result2 results={this.state.decodedResults} />
-          <Lookup results={this.state.decodedResults} />
-          {console.log(this.state.decodedResults)}
+            qrCodeSuccessCallback={onNewScanResult}/>
+          
+          
+          <Lookup results={decodedResults} />
+          {console.log(decodedResults)}
         </section>
       </div>
     );
-  }
 
-  onNewScanResult(decodedText, decodedResult) {
+  function onNewScanResult(decodedText, decodedResult)  {
     console.log(
       "App [result]", decodedResult);
 
-    // let decodedResults = this.state.decodedResults;
-    // decodedResults.push(decodedResult);
-    this.setState((state, props) => {
-      state.decodedResults.push(decodedResult);
-      return state;
-    });
-  }
-}
 
-export default App;
+    setDecodedResults(decodedText)
+    
+     
+  }
+  
+}
